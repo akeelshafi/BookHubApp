@@ -1,18 +1,22 @@
 package com.akeel.bookhub
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
 
+    @SuppressLint("ResourceType", "MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        openDashBoard()
+
+
 
 
         // Find the navigation view
@@ -24,22 +28,39 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.dashboard -> {
 
-                        showToast("Clicked on dashboard btn")
 
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.frame,DashboardFragment())
+                        .addToBackStack("Dashboard")
+                        .commit()
+                    supportActionBar?.title="Dashboard"
                 }
                 R.id.favourite -> {
-                    showToast("Clicked on favourite btn")
+
+                    supportFragmentManager.beginTransaction().replace(R.id.frame,FavouriteFragment())
+                        .addToBackStack("Favourites")
+                        .commit()
+                    supportActionBar?.title="Favourites"
                 }
-                R.id.profile -> {
-                    showToast("Clicked on profile btn")
+                R.id.profile ->{
+                    supportFragmentManager.beginTransaction().replace(R.id.frame,ProfileFragment())
+                        .addToBackStack("Profile")
+                        .commit()
+                    supportActionBar?.title="Profile"
+
+
                 }
                 R.id.about_app -> {
-                    showToast("Clicked on about app btn")
+                    supportFragmentManager.beginTransaction().replace(R.id.frame,AboutAppFragment())
+                        .addToBackStack("About App")
+                        .commit()
+                    supportActionBar?.title="About App"
                 }
             }
             // Close the drawer after handling the click
             drawerLayout.closeDrawer(GravityCompat.START)
             true
+
         }
 
         // Find the drawer layout
@@ -55,8 +76,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    private fun openDashBoard(){
+        val fragment = DashboardFragment()
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.frame,fragment)
+        transaction.commit()
     }
+
 
 }

@@ -5,4 +5,10 @@
     <string name="profile">Profile</string>
     <string name="about_app">About App</string>
     <string name="book_hub">Book Hub</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome_to_dashboard_screen">Welcome to dashboard screen</string>
+    <string name="welcome_to_favourites_screen">Welcome to Favourites Screen</string>
+    <string name="welcome_to_profile_fragment">Welcome to profile Fragment</string>
+    <string name="welcome_to_about_app_fragment">Welcome to About App Fragment</string>
 </resources>
