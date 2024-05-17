@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frame_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DashboardFragment"
-    android:id="@+id/frame_layout">
+    tools:context=".fragment.DashboardFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/dashboard_fragment"
-        android:layout_width="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dashboard_recycler_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/welcome_to_dashboard_screen"
-        android:textSize="18sp"
-        android:padding="10dp"/>
+        android:padding="10dp"
+        android:layout_margin="5dp"/>
 
-</FrameLayout>
+
+
+</RelativeLayout>

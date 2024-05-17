@@ -1,22 +1,36 @@
-package com.akeel.bookhub
+package com.akeel.bookhub.activity
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageButton
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.akeel.bookhub.fragment.AboutAppFragment
+import com.akeel.bookhub.fragment.DashboardFragment
+import com.akeel.bookhub.fragment.FavouriteFragment
+import com.akeel.bookhub.fragment.ProfileFragment
+import com.akeel.bookhub.R
 import com.google.android.material.navigation.NavigationView
+
 class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
 
-    @SuppressLint("ResourceType", "MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         openDashBoard()
 
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
 
+        toolbar.setNavigationOnClickListener {
+            // Handle navigation icon click here
+            // For example, open/close the drawer
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                drawerLayout.closeDrawer(GravityCompat.START)
+            } else {
+                drawerLayout.openDrawer(GravityCompat.START)
+            }
+        }
 
 
         // Find the navigation view
@@ -30,31 +44,34 @@ class MainActivity : AppCompatActivity() {
 
 
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.frame,DashboardFragment())
-                        .addToBackStack("Dashboard")
+                        .replace(R.id.frame, DashboardFragment())
                         .commit()
-                    supportActionBar?.title="Dashboard"
+                    supportActionBar?.title = "Dashboard"
                 }
+
                 R.id.favourite -> {
 
-                    supportFragmentManager.beginTransaction().replace(R.id.frame,FavouriteFragment())
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.frame, FavouriteFragment())
                         .addToBackStack("Favourites")
                         .commit()
-                    supportActionBar?.title="Favourites"
+                    supportActionBar?.title = "Favourites"
                 }
-                R.id.profile ->{
-                    supportFragmentManager.beginTransaction().replace(R.id.frame,ProfileFragment())
+
+                R.id.profile -> {
+                    supportFragmentManager.beginTransaction().replace(R.id.frame, ProfileFragment())
                         .addToBackStack("Profile")
                         .commit()
-                    supportActionBar?.title="Profile"
-
+                    supportActionBar?.title = "Profile"
 
                 }
+
                 R.id.about_app -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.frame,AboutAppFragment())
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.frame, AboutAppFragment())
                         .addToBackStack("About App")
                         .commit()
-                    supportActionBar?.title="About App"
+                    supportActionBar?.title = "About App"
                 }
             }
             // Close the drawer after handling the click
@@ -66,20 +83,12 @@ class MainActivity : AppCompatActivity() {
         // Find the drawer layout
         drawerLayout = findViewById(R.id.drawer_layout)
 
-
-        // Find the image button
-       val imageButton = findViewById<ImageButton>(R.id.button_driver)
-
-        // Set click listener to open drawer
-        imageButton.setOnClickListener {
-            drawerLayout.openDrawer(GravityCompat.START)
-        }
     }
 
-    private fun openDashBoard(){
+    private fun openDashBoard() {
         val fragment = DashboardFragment()
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.frame,fragment)
+        transaction.replace(R.id.frame, fragment)
         transaction.commit()
     }
 
