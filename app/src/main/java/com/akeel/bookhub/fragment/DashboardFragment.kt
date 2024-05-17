@@ -18,7 +18,6 @@ class DashboardFragment : Fragment() {
 
     private lateinit var layoutManager: RecyclerView.LayoutManager
 
-
     private lateinit var recyclerAdapter: DashboardRecyclerAdapter
 
     val bookInfoList = arrayListOf(

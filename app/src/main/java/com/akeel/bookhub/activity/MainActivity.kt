@@ -1,8 +1,14 @@
+@file:Suppress("DEPRECATION")
+
 package com.akeel.bookhub.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
+import android.widget.FrameLayout
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.akeel.bookhub.fragment.AboutAppFragment
@@ -14,53 +20,44 @@ import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
-
+    private lateinit var coordinatorLayout: CoordinatorLayout
+    private lateinit var toolbar: Toolbar
+    private lateinit var frameLayout: FrameLayout
+    private lateinit var navigationView: NavigationView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        drawerLayout = findViewById(R.id.drawer_layout)
+        coordinatorLayout = findViewById(R.id.coordinator_layout)
+        toolbar = findViewById(R.id.toolbar)
+        frameLayout = findViewById(R.id.frame)
+        navigationView = findViewById(R.id.navigation_drawer)
+        setUpToolBar()
+
+        val actionBarDrawerToggle =
+            ActionBarDrawerToggle(this, drawerLayout, R.string.open_drawer, R.string.close_drawer)
+        drawerLayout.addDrawerListener(actionBarDrawerToggle)
+        actionBarDrawerToggle.syncState()
+
         openDashBoard()
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-
-        toolbar.setNavigationOnClickListener {
-            // Handle navigation icon click here
-            // For example, open/close the drawer
-            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                drawerLayout.closeDrawer(GravityCompat.START)
-            } else {
-                drawerLayout.openDrawer(GravityCompat.START)
-            }
-        }
-
-
-        // Find the navigation view
-        val navigationView = findViewById<NavigationView>(R.id.navigation_drawer)
-
-        // Set the navigation item selected listener
-        navigationView.setNavigationItemSelectedListener { menuItem ->
-            // Handle navigation view item clicks here
-            when (menuItem.itemId) {
+        navigationView.setNavigationItemSelectedListener {
+            when (it.itemId) {
                 R.id.dashboard -> {
 
-
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.frame, DashboardFragment())
-                        .commit()
-                    supportActionBar?.title = "Dashboard"
+                        .replace(R.id.frame, DashboardFragment()).commit()
                 }
 
                 R.id.favourite -> {
 
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.frame, FavouriteFragment())
-                        .addToBackStack("Favourites")
-                        .commit()
+                        .replace(R.id.frame, FavouriteFragment()).commit()
                     supportActionBar?.title = "Favourites"
                 }
 
                 R.id.profile -> {
                     supportFragmentManager.beginTransaction().replace(R.id.frame, ProfileFragment())
-                        .addToBackStack("Profile")
                         .commit()
                     supportActionBar?.title = "Profile"
 
@@ -68,21 +65,33 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.about_app -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.frame, AboutAppFragment())
-                        .addToBackStack("About App")
-                        .commit()
+                        .replace(R.id.frame, AboutAppFragment()).commit()
                     supportActionBar?.title = "About App"
                 }
             }
-            // Close the drawer after handling the click
             drawerLayout.closeDrawer(GravityCompat.START)
+            it.isChecked = true
             true
 
         }
 
-        // Find the drawer layout
-        drawerLayout = findViewById(R.id.drawer_layout)
 
+    }
+
+    private fun setUpToolBar() {
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = "Book Hub"
+        supportActionBar?.setHomeButtonEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+
+        if (id == android.R.id.home) {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun openDashBoard() {
@@ -90,6 +99,22 @@ class MainActivity : AppCompatActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frame, fragment)
         transaction.commit()
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.frame)
+
+        if (currentFragment !is DashboardFragment) {
+            openHome()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    private fun openHome() {
+        supportFragmentManager.beginTransaction().replace(R.id.frame, DashboardFragment()).commit()
+        supportActionBar?.title = "Home"
     }
 
 

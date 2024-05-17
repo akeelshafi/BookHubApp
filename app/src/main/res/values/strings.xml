@@ -15,4 +15,6 @@
     <string name="name_of_the_author">Name of the Author</string>
     <string name="rs_299">Rs. 299</string>
     <string name="_4_5">4.5</string>
+    <string name="open_drawer">Open Drawer</string>
+    <string name="close_drawer">Close Drawer</string>
 </resources>
